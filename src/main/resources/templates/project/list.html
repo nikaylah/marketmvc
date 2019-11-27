@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Marketplace - List Projects</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+</head>
+
+<body>
+<div class="container">
+    <div th:if="${not #lists.isEmpty(projects)}">
+        <h2>Project List</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Maximum Budget</th>
+                <th>Last Day to Bid</th>
+                <th>Image URL</th>
+                <th>List</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.id}"></td>
+                <td th:text="${project.name}"></td>
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.maxBudget}"></td>
+                <td th:text="${project.expires}"></td>
+                <td th:text="${project.imageUrl}"></td>
+                <td><a class="btn btn-primary" th:href="${'/project/show/' + project.id}">View</a> </td>
+                <td><a class="btn btn-primary" th:href="${'/project/edit/' + project.id}">Edit</a> </td>
+                <td><a class="btn btn-primary" th:href="${'/project/delete/' + project.id}">Delete</a> </td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <a class="btn btn-primary" href="/project/new">Post a New Project</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
