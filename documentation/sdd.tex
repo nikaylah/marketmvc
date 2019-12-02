@@ -1,0 +1,94 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem}
+\usepackage{float}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{inputenc}
+\usepackage{geometry}
+
+
+
+\geometry{left=2.5cm,right=2.5cm,top=10cm,bottom=2.5cm}
+
+
+
+
+
+
+\begin{document}
+\title{%
+  Online  Marketplace MVC Application \\
+  \large (Software Design Document)}
+
+\author{Nikaylah Woody}
+\date{\today}
+\maketitle
+
+\pagenumbering{roman}
+
+\newpage
+\tableofcontents
+
+\section*{Revisions}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|}
+\hline
+Date &Description  &Version \\ \hline
+November 25, 2019 &Created document  &1.0  \\ \hline
+November 26, 2019 &Added documentation for the packages and classes &1.1  \\ \hline
+ &  &  \\ \hline
+&  &  \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+\section{Introduction}
+This purpose of this project is to design and implement a Rest API for a website to complete a test assesment as part of my interview with Intuit.
+
+\section{Overview}
+\label{sec}
+This project is a marketplace mvc application for contractors. This marketplace allows clients to post projects(jobs) and allows contractors to bid for these projects.
+
+
+
+\section{Implemented Components}
+
+\indent
+\subparagraph{/controllers}
+\begin{enumerate}[label=(\alph*)]
+\item provides the implementation of the Bid, Contractor, Project, and Index Controllers
+\item provides the model data to the view allowing button clicks and form submittions
+\end{enumerate}
+
+\subparagraph{/domain}
+\begin{enumerate}[label=(\alph*)]
+\item provides the implementation of the models and data of the Bid.java, Contractor.java, and Project.java
+\item DomainObject.java interface contains the code for the integer id
+\end{enumerate}
+
+\subparagraph{/services}
+\begin{enumerate}[label=(\alph*)]
+\item provides the Bid, Project, and Contractor service classes and interfaces to perform operations within the various models
+\item using CrudRepository interface to automatically implement getById(), saveOrUpdate(), and delete() methods at runtime for Bid, Project and Contractor models
+\end{enumerate}
+ 
+
+\subsection{Anticipated Updates}
+\subparagraph{}
+\begin{enumerate}[label=(\alph*)]
+\item Provide additional frontend such as jQuery to provide a more user firendly experience
+\item Provide Spring Security to allow both Clients and Contrators to log in with username and password
+\item Provide a bid currency converter that allows Clients and Contractors to bid in the currency of their choice without conflicting interferance
+\item Provide project filter feature to allow Contractors to narrow their project search by category
+\item Allow notifications feature that sends notifiation when a new project is created within the users category preferences
+\item Allow contractors to provide descriptions of their qualifications at the time of providing a bid
+\end{enumerate}
+
+
+
+
+\end{document}
+
