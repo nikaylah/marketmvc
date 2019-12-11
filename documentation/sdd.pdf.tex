@@ -1,0 +1,115 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{inputenc}
+\usepackage{geometry}
+
+
+\geometry{left=2.5cm,right=2.5cm,top=10cm,bottom=2.5cm}
+
+
+
+
+
+\begin{document}
+\title{
+% Online Marketplace MVC Application \\
+ \large (Software Design Document)}
+\author{Nikaylah Woody}
+\date{\today}
+\maketitle
+\pagenumbering{roman}
+\newpage
+\tableofcontents
+\section*{Revisions}
+\begin{table}[H]
+\begin{tabular}{|l|l|l|}\hline 
+Date & Description & Version \\ \hline 
+November 25, 2019 & Created document & 1.0 \\ \hline 
+November 26, 2019 & Added documentation for the packages and classes & 1.1 \\ \hline 
+December 09, 2019 & Added more in-depth explainations of functionality within application & 1.2 \\ \hline
+& & \\ \hline
+\end{tabular}
+\end{table}
+\newpage
+
+\section{Introduction}The purpose of this project is to design and implement a REST API for a website to complete a test assesment as part of my interview with Intuit.
+\section{Overview}
+\label{sec}This project is a marketplace mvc application for contractors. This marketplace allows clients to post projects(jobs) and allows contractors to bid for these projects.
+
+
+\section{Implemented Components}
+\indent\subparagraph{/controllers}
+\begin{enumerate}[label=(\alph*)]
+\item provides the implementation of the Bid, Contractor, Project, and Index Controllers
+\item provides the model data to the view allowing button clicks and form submissions
+\item list() injects the model and returns the dependencies and requests model to the show by taking the model in and adding attributes for “projects”, “contractors”, and “bids” and using the service to grab the list of data
+\item show()  get() uses @pathVariable which matches up the property in request mapping with the properties of the method signature
+\item edit() gets the data and renders it to the form page
+\item new() passes in an empty model
+\item saveOrUpdate() posts the most accurate match, captures data by calling method from services and saves it, comes back and redirects to the show url. It dynamically creates the id url (request comes in and Spring binds the form parameter to our data properties dynamically)
+\item delete()
+
+\end{enumerate}
+
+\subparagraph{/domain}
+\begin{enumerate}[label=(\alph*)]
+\item provides the implementation of the models and data of the Bid.java, Contractor.java, and Project.java
+\item DomainObject interface that show the id properties to use for AbstractMapService class
+\item AbstractMapService returns a DomainObject
+\item projects properties include id, version, name , description and maxBudget
+\item version property performs jpa optimistic bocking that allows a version number to be created for each new update without losing previous updates
+\item contractors properties include firstName, lastName, email, phoneNumber, and address info
+\item bids properties include name and bidAmount
+
+\end{enumerate}
+
+\subparagraph{/services}
+\begin{enumerate}[label=(\alph*)]
+\item services are used to separate our concerns within the application
+\item provides the Bid, Project, and Contractor service classes and interfaces to perform operations within the various models
+\item using CrudRepository interface with a generic type to automatically implement getById(), saveOrUpdate(), and delete() methods at runtime for Bid, Project and Contractor models
+\item listAll() using DomainObject interface and lists all of the provided data
+\item saveOrUpdate()  takes in data, and if method id is null it goes out an gets the maximum value from our map and append 1 to it then puts that project in out map
+\item delete() annotates @PathVariable to bind the id from the web request. It goes into the data and removes that existing data, then redirects
+\item loadDomainObjects() provides HashMap of data
+\end{enumerate} 
+
+\subparagraph{/resources}
+\begin{enumerate}[label=(\alph*)]
+\item contains form.html, list.html, and show.html for each model class and an index.html for the home page
+\end{enumerate} 
+
+\subparagraph{/test}
+\begin{enumerate}[label=(\alph*)]
+\item utilizes a mock web context to test web requests and its interactions with the Spring MVC dispatcher servlet
+\item Mock requests go through the dispatcher servlet and the dispatcher servlets reacts with the contollers as it would with the web container(Tomcat)
+\item Mokito is used to test the injected dependent objects
+\item use @Mock to set up a service that gets injected into the project controller
+\item use @InjectMocks which creates a controller, and injects mock objects into it
+\item andExpect(staus()) expects it to return an http status of OK
+\item andExpect(view()) to represent where we are going
+\item andExpect(model()) to show the correct attribute 
+\item status().is3xxRedirection() verifying a redirect to the object url
+\item any() takes in any class of the object
+\item ArgumentCaptor capture the argument that comes into the mockito mock, and verifies the properties of the bound object
+
+\end{enumerate}
+
+\subsection{Anticipated Updates}\subparagraph{}
+\begin{enumerate}[label=(\alph*)]
+\item Provide additional frontend such as jQuery to provide a more user firendly experience
+\item Provide Spring Security to allow both Clients and Contrators to log in with username and password
+\item Provide a bid currency converter that allows Clients and Contractors to bid in the currency of their choice without conflicting interferance
+\item Provide project filter feature to allow Contractors to narrow their project search by category
+\item Allow notifications feature that sends notifiation when a new project is created within the users category preferences
+\item Allow contractors to provide descriptions of their qualifications at the time of providing a bid
+\end{enumerate}
+
+
+
+\end{document}
